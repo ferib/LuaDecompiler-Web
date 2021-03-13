@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,7 +13,7 @@
 
   <ItemGroup>
 	<Reference Include="LuaToolkit">
-    <HintPath>Include="LuaToolkit.dll"</HintPath>
+    		<HintPath>LuaToolkit.dll</HintPath>
 	</Reference>
   </ItemGroup>
 
@@ -24,7 +24,7 @@
     <None Update="public\index.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="public\js\main.js">
+    <None Update="public\js\api.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
