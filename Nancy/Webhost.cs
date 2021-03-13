@@ -4,6 +4,7 @@ using System.Text;
 using System.Linq;
 using Nancy;
 using Nancy.ErrorHandling;
+using Nancy.Conventions;
 using Nancy.Bootstrapper;
 using Nancy.TinyIoc;
 using Web.API;
@@ -19,7 +20,7 @@ namespace Web.Nancy
     {
         public Webhost()
         {
-            
+
             Get("/", async x =>
             {
                 return View["public/index.html"];
@@ -31,7 +32,7 @@ namespace Web.Nancy
                 // TODO: add protection to prevent spam?
 
                 // check attached files
-                var file = Request.Files.FirstOrDefault();
+                var file = this.Request.Files.FirstOrDefault();
                 if (file != null)
                 {
                     byte[] LuaC = new byte[file.Value.Length];
@@ -41,7 +42,7 @@ namespace Web.Nancy
 
                 // check body as bytecode
                 string content = Request.Body.AsString();
-                if(content.Substring(1,3) == "Lua")
+                if (content.Substring(1, 3) == "Lua")
                 {
                     return Response.AsJson<APIResponse<ResponseDecompiler>>(APIHelper.Decompile(Encoding.UTF8.GetBytes(content)));
                 }
@@ -49,14 +50,20 @@ namespace Web.Nancy
                 return Response.AsJson<APIResponse<ResponseDecompiler>>(APIHelper.Decompile(null)); // its for error handling
             });
 
+            Post("/api/elipmoced", async x =>
+            {
+                // NOTE: this one is a joke xD
+                return Response.AsRedirect("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
+            });
+
             // Lua Beautifier API
-            Post("/api/beautifie", async x =>
+            Post("/api/beautifie/", async x =>
             {
                 return Response.AsJson<APIResponse<ResponseBeautifier>>(APIHelper.Beautifie());
             });
 
             // Highlight API
-            Post("/api/{version}/highlight", async x =>
+            Post("/api/highlight/", async x =>
             {
                 return Response.AsJson<APIResponse<ResponseHighlighter>>(APIHelper.Highlight());
             });
@@ -90,6 +97,14 @@ namespace Web.Nancy
                     .WithHeader("Access-Control-Allow-Headers", "Accept, Origin, Content-type")
                     .WithHeader("Access-Control-Allow-Headers", "Accept, Origin, Content-type");
             });
+        }
+        protected override void ConfigureConventions(NancyConventions nancyConventions)
+        {
+            base.ConfigureConventions(nancyConventions);
+
+            nancyConventions.StaticContentsConventions.Clear(); // remove defaults, if any
+            nancyConventions.StaticContentsConventions.Add(StaticContentConventionBuilder.AddDirectory("css", "/public/css"));
+            nancyConventions.StaticContentsConventions.Add(StaticContentConventionBuilder.AddDirectory("js", "/public/js"));
         }
     }
 }
