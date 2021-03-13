@@ -1,2 +1,4 @@
 bin/*
+publish.sh
 obj/*
+*.dll
