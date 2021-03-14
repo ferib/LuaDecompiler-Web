@@ -103,8 +103,8 @@ namespace Web.Nancy
             base.ConfigureConventions(nancyConventions);
 
             nancyConventions.StaticContentsConventions.Clear(); // remove defaults, if any
-            nancyConventions.StaticContentsConventions.Add(StaticContentConventionBuilder.AddDirectory("css", "/public/css"));
-            nancyConventions.StaticContentsConventions.Add(StaticContentConventionBuilder.AddDirectory("js", "/public/js"));
+            nancyConventions.StaticContentsConventions.Add(StaticContentConventionBuilder.AddDirectory("css", "public/css"));
+            nancyConventions.StaticContentsConventions.Add(StaticContentConventionBuilder.AddDirectory("js", "public/js"));
         }
     }
 }
