@@ -3,7 +3,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>Tool: Lua 5.1 Decompiler</title>
-    <meta name="description" content="Lua Decompiler for Lua 5.1 bytecode." />
+    <meta name="description" content="Online Lua Decompiler for Lua version 5.1." />
     <meta name="keywords" content="Online Lua Decompiler, Online Lua Decompiler API, REST API, Decompiler with REST API, Online Decompiler, Programmer, programming, Lua, lua bytecode, compiled lua, lua 5.1, version 5.1, Lua 5.1 Bytecode, Luad, compiled lua, .luac, luac decoder, luac opener, luac reader, lua bytecode decompiler, decompiler, reverse compiled, Ferib, Hellscream, Ferib Hellscream" />
     <meta name="revisit-after" content="90 days" />
     <meta name="Author" content="ferib.dev" />
@@ -19,9 +19,9 @@
     <link rel="stylesheet" type="text/css" href="https://ferib.dev/css/style.css" media="all" />
     <link rel="stylesheet" type="text/css" href="/css/style.css" media="all" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta property="og:title" content="Lua Decompiler for Lua 5.1 bytecode." />
+    <meta property="og:title" content="Lua Decompiler" />
     <meta property="og:type" content="profile" />
-    <meta property="og:description" content="Lua Decompiler for Lua 5.1 bytecode." />
+    <meta property="og:description" content="Online Lua Decompiler for Lua version 5.1." />
     <meta property="og:url" content="https://lua-decompiler.ferib.dev/" />
     <meta property="og:image" content="https://ferib.dev/img/logo.png" />
     <meta property="og:image:type" content="image/png" />
@@ -69,11 +69,9 @@
                             Details about the REST API can be found below!
                         </p>
                         <p class="tool-footer">
-                        <!-- COMMING SOON!
                             <span>
-                                Check out my <a href="#"><u>complete article about Lua decompilers</u></a> for more information!
+                                Check out my <a href="https://ferib.dev/blog.php?l=post/Lua_Devirtualization_Part_1_Introduction"><u>complete article about Lua decompilers</u></a> for more information!
                             </span>
-                        -->
                         </p>
                         <h2 id="restapi">REST API</h2>
                         <p>
@@ -90,7 +88,7 @@
                                         <td align="center">POST</td>
                                         <td align="center"><code>/api/decompile/</code></td>
                                         <!-- <td align="center"><code>/api/&#8238;elipmoced&#8236;/</code></td> // prank, no? -->
-                                        <td align="left">Decompiles the embeded Lua binary file.</td>
+                                        <td align="left">Decompiles the embedded Lua binary file.</td>
                                     </tr>
                                         <!-- COMMING SOON MAH DUDES!
                                         <tr>
@@ -145,7 +143,6 @@
                     } else {
                         $('.insert-code').text(API.getLastResult().status);
                     }
-                        
                 });
             })
         })
