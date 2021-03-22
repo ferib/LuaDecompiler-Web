@@ -34,7 +34,7 @@ namespace Web.API
                     return result;
                 }
 
-                LuaWriter decompiler = new LuaWriter(decoder);
+                LuaDecompiler decompiler = new LuaDecompiler(decoder);
 
                 // handle error
                 if (luacFile.Length == 0)
