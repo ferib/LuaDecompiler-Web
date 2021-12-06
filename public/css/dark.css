@@ -75,3 +75,7 @@ tr:nth-child(even) {
     border: 2px dashed wheat;
     background: #00000020;
 }
+
+.insert-code {
+	color: cornflowerblue;
+}

@@ -1,11 +1,8 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Text;
-using LuaToolkit.Beautifier;
-using LuaToolkit.Core;
-using LuaToolkit.Decompiler;
-using LuaToolkit.Disassembler;
-using LuaToolkit.Models;
+using System.Diagnostics;
 
 namespace Web.API
 {
@@ -24,32 +21,36 @@ namespace Web.API
             //luacFile = System.IO.File.ReadAllBytes(@"L:\Projects\LuaBytcodeInterpreter\lua_installer\files\upvalues.luac");
             try
             {
-                // decompile
-                LuaCFile cfile = new LuaCFile(luacFile);
-                LuaDecoder decoder = new LuaDecoder(cfile);
+                string filename = $"tmp_{DateTime.UtcNow.Ticks}";
+                File.WriteAllBytes(filename + ".luac", luacFile);
 
-                if (decoder.File.IntSize == 0)
+                using (Process proc = new Process())
                 {
-                    result.message = "Error, decoding lua binary failed.";
-                    return result;
-                }
+                    proc.StartInfo.FileName = "luadec";
+                    proc.StartInfo.Arguments = $"{filename}.luac";
+                    proc.StartInfo.UseShellExecute = false;
+                    proc.StartInfo.RedirectStandardOutput = true;
+                    proc.Start();
 
-                LuaDecompiler decompiler = new LuaDecompiler(decoder);
+                    string output = proc.StandardOutput.ReadToEnd();
+                    Console.WriteLine(output);
 
-                // handle error
-                if (luacFile.Length == 0)
-                {
-                    result.message = "Error, input file empty.";
-                    return result;
-                }
-                else if (decompiler.LuaScript.Length == 0)
-                {
-                    result.message = "Error, decompilation failed.";
-                    return result;
-                }
+                    proc.WaitForExit(7 * 1000); // timeout after 7 sec?
+                    if (!proc.HasExited)
+                        proc.Kill();
 
-                result.status = "Ok";
-                result.data.decompiled = decompiler.LuaScript;
+                    result.data.decompiled = "-- Decompiled online using https://Lua-Decompiler.ferib.dev/ (luadec 2.0.2)\n";
+                    result.data.decompiled += output;
+
+                    File.Delete(filename);
+
+                    if (proc.ExitCode != 0)
+                    {
+                        result.status = "Error";
+                        result.message = "Unknown error during decompilation!";
+                        return result;
+                    }
+                }
                 return result;
             }
             catch(Exception e)
@@ -57,6 +58,7 @@ namespace Web.API
                 Console.WriteLine(e.ToString());
                 result.status = "Error";
                 result.message = "Unknown error!";
+                result.data.decompiled = "";
                 return result;
             }
             return null;
