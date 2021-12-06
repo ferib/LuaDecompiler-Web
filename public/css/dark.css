@@ -3,13 +3,58 @@ body {
     color: wheat;
 }
 
-.page-contents
+#main-logo {
+	filter: drop-shadow(2px 4px 6px black);
+}
+
+.fancy-box
 {
     background-color: #00000020;
     border: 1px solid #00000050;
     box-shadow: 2px 2px 7px #00000076;
 }
 
+.box-title
+{
+	color: cadetblue;
+}
+
+.box-title-red
+{
+	color: indianred;
+}
+
+#filter
+{
+	background: #00000000;
+}
+
+.badge-container
+{
+	background:#00000069;
+}
+
+code {
+	background: #1b1f233d;
+}
+
+a, p, .box-text {
+	color: wheat;
+	filter: brightness(90%); /* contract to high? */
+}
+
+a.footer-link:link {
+	color: #f5deb370;
+}
+
+a.footer-link:visited {
+    color: #f5deb370;
+}
+
+a.footer-link {
+	color: #f5deb370;
+}
+	
 .article-note {
 	color: #f5deb370;
 }
@@ -18,14 +63,15 @@ body {
 	color: indianred;
 }
 
-code {
-    background: #1b1f235c;
+.box-tag {
+	color: gray;
 }
 
-a:visited {
-    color: cadetblue;
+tr:nth-child(even) {
+    background-color: #00000020;
 }
 
-a:link {
-    color: cadetblue;
+.luac-file-drag {
+    border: 2px dashed wheat;
+    background: #00000020;
 }
