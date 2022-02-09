@@ -23,6 +23,7 @@
     top: 350px;
     position: relative;
     text-align: center;
+    z-index: 1;
 }
 
 .tool-footer {

@@ -53,8 +53,10 @@
                         <div class="luac-file-drag">
                             <pre class="insert-code"></pre>
                             <div class="luac-file">
-                                <p>Please upload a Lua 5.1 binary file.</p>
-                                <input type="file" id="luacfile" name="luacfile">
+                                <form id="luac-file-form">
+                                    <p>Please upload a Lua 5.1 binary file.</p>
+                                    <input type="file" id="luacfile" name="luacfile">
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -71,12 +73,12 @@
                             </script>
                         </div>
                         <!--
-                <div style="background-color: black; border: 3px dashed red; width: auto; padding: 16px; line-height: 28px; text-align: center; color: white; font-weight: 500;">
-                    THIS PROJECT IS A PROOF-OF-CONCEPT FOR<br />THE RESEARCH PROJECT <a style="color: cadetblue;" href="https://ferib.dev/blog.php?l=post/Lua_Devirtualization_Part_1_Introduction"><u>LUA DEVIRTUALIZATION</u></a><br />AND IS <b>NO LONGER BEING MAINTAINED</b>!
-                    <br /><br />
-                    <span style="font-style: italic; color: gray;">For Lua Decompilation Please Check Out <a style="color: cadetblue;" href="https://github.com/viruscamp/luadec"><u>LuaDec</u></a></span>
-                </div>
-                -->
+                        <div style="background-color: black; border: 3px dashed red; width: auto; padding: 16px; line-height: 28px; text-align: center; color: white; font-weight: 500;">
+                            THIS PROJECT IS A PROOF-OF-CONCEPT FOR<br />THE RESEARCH PROJECT <a style="color: cadetblue;" href="https://ferib.dev/blog.php?l=post/Lua_Devirtualization_Part_1_Introduction"><u>LUA DEVIRTUALIZATION</u></a><br />AND IS <b>NO LONGER BEING MAINTAINED</b>!
+                            <br /><br />
+                            <span style="font-style: italic; color: gray;">For Lua Decompilation Please Check Out <a style="color: cadetblue;" href="https://github.com/viruscamp/luadec"><u>LuaDec</u></a></span>
+                        </div>
+                        -->
                         <h2 id="about">About</h2>
                         <p>
                             Decompilers do exactly the opposite of what compilers do,<br />
@@ -113,17 +115,17 @@
                                         <td align="left">Decompiles the embedded Lua binary file.</td>
                                     </tr>
                                     <!-- COMMING SOON!
-                            <tr>
-                                <td align="center">POST</td>
-                                <td align="center"><code>/api/beautifie/</code></td>
-                                <td align="left">Beautifies the lua script code that is located in the embedded file or body of the request.</td>
-                            </tr>
-                            <tr>
-                                <td align="center">POST</td>
-                                <td align="center"><code>/api/highlight/</code></td>
-                                <td align="left">Highlights the embeded Lua binary file, the <code>data</code> will hold a list of colors and their corresponding start/end locations.</td>
-                            </tr>
-                            -->
+                                    <tr>
+                                        <td align="center">POST</td>
+                                        <td align="center"><code>/api/beautifie/</code></td>
+                                        <td align="left">Beautifies the lua script code that is located in the embedded file or body of the request.</td>
+                                    </tr>
+                                    <tr>
+                                        <td align="center">POST</td>
+                                        <td align="center"><code>/api/highlight/</code></td>
+                                        <td align="left">Highlights the embeded Lua binary file, the <code>data</code> will hold a list of colors and their corresponding start/end locations.</td>
+                                    </tr>
+                                    -->
                                 </tbody>
                             </table>
                         </p>
@@ -163,16 +165,22 @@
         $(function () {
             $('#luacfile:file').change(function () {
                 $('.luac-upload').addClass("api-busy");
-                $('.luac-file > p').hide()
+                $('.luac-file > * > p').hide()
                 $('.luac-file').css({ "top": "505px", "text-align": "left" });
 
                 API.decompileFile($(this)[0].files[0], function () {
                     $('.luac-upload').removeClass("api-busy");
-                    if (API.getLastResult().data.decompiled != null) {
-                        $('.insert-code').text(API.getLastResult().data.decompiled);
+                    let res = API.getLastResult();
+                    if (res.status == "Ok") {
+                        console.log("Decompilation Done!")
+                        $('.insert-code').text(res.data.decompiled);
                     } else {
-                        $('.insert-code').text(API.getLastResult().status);
+                        console.log("Decompilation Failed!");
+                        $('.insert-code').text(res.status + ": " + res.message);
                     }
+                    // Update buttons
+                    document.getElementById("luac-file-form").reset() // TODO: fix this in jQuery?
+                    //$("#luacfile").text("Select Another File");
                 });
             })
         })
@@ -189,5 +197,5 @@
             gtag('config', 'UA-86365922-4');
 
         </script>
-    <body>
+    </body>
 </html>

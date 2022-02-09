@@ -11,9 +11,10 @@ namespace Web.API
         public static APIResponse<ResponseDecompiler> Decompile(byte[] luacFile)
         {
             APIResponse<ResponseDecompiler> result = new APIResponse<ResponseDecompiler>();
-            result.status = "Error";
+            result.status = "Ok";
             if(luacFile == null)
             {
+                result.message = "Error";
                 result.message = "Error, input file empty.";
                 return result;
             }
